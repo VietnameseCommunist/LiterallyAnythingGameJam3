@@ -17,7 +17,7 @@ public class PlayerMove : MonoBehaviour
 
     private void Start()
     {
-        RB.GetComponent<Rigidbody>();
+        RB = GetComponent<Rigidbody>();
         RB.freezeRotation = true;
     }
 
@@ -38,9 +38,9 @@ public class PlayerMove : MonoBehaviour
     // Moves Player
     private void MovePlayer()
     {
+        
         // Calculate Movement Direction
         MoveDirection = Orientation.forward * VerticalInput + Orientation.right * HorizontalInput;
-
-        RB.AddForce(MoveDirection.normalized * MoveSpeed * 10f, ForceMode.Force);
+        transform.position += MoveDirection * Time.deltaTime * MoveSpeed;
     }
 }
