@@ -7,7 +7,7 @@ public class HealthUI : MonoBehaviour
      //For all other HealthUI access
      public static HealthUI Instance;
      //This makes the change
-     public static void SetTo(float value, float max)
+     public static void SetTo(float value, float max = 100)
      {
           if (!Instance)
           {
