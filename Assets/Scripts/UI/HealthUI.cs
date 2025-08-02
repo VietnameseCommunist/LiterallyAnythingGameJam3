@@ -6,7 +6,12 @@ public class HealthUI : MonoBehaviour
      public Image img;
      //For all other HealthUI access
      public static HealthUI Instance;
-     //This makes the change
+     //does the instance
+     public void Start()
+     {
+          if (!Instance) Instance = this;
+     }
+     //sets the health UI bar to be at the needed value 
      public static void SetTo(float value, float max = 100)
      {
           if (!Instance)
