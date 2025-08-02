@@ -4,4 +4,5 @@ using UnityEngine;
 public class HealData : ScriptableObject
 {
     public int HealAmount;
+    public int ThrowDamage;
 }

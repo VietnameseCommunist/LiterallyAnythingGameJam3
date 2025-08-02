@@ -5,6 +5,8 @@ public class Heal : MonoBehaviour
     public HealData healData;
     private PlayerDamage playerDamage;
 
+    public bool IsOnGround;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -39,5 +41,20 @@ public class Heal : MonoBehaviour
         playerDamage.playerScript.HoldingObject = null;
         Vector3 seeyuh = Quaternion.AngleAxis(-25, playerDamage.Camera.right) * playerDamage.Camera.forward;
         rb.AddForce(seeyuh * (500f * ChargeRateRatio));
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        {
+            IsOnGround = true;
+            return;
+        }
+        else IsOnGround = false;
+
+        if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Enemy") && !IsOnGround)
+        {
+            Enemy enemy = collision.collider.gameObject.GetComponent<Enemy>();
+            enemy.GetDamage(healData.ThrowDamage);
+        }
     }
 }

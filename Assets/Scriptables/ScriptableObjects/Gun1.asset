@@ -13,3 +13,5 @@ MonoBehaviour:
   m_Name: Gun1
   m_EditorClassIdentifier: 
   Damage: 1
+  ThrowDamage: 3
+  Distance: 10
