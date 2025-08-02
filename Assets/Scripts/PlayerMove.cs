@@ -38,7 +38,6 @@ public class PlayerMove : MonoBehaviour
     // Moves Player
     private void MovePlayer()
     {
-        
         // Calculate Movement Direction
         MoveDirection = Orientation.forward * VerticalInput + Orientation.right * HorizontalInput;
         transform.position += MoveDirection * Time.deltaTime * MoveSpeed;
