@@ -45,6 +45,7 @@ public class GradientOverlay : MonoBehaviour
                     img.color -= new Color(0, 0, 0, 5 * fadingMultiplier * Time.deltaTime);
                     yield return null;
                }
+               Destroy(real.gameObject);
           }
     }
 
