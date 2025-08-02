@@ -58,6 +58,8 @@ public class PlayerDamage : MonoBehaviour
         if(Input.GetKey(KeyCode.Q) && playerScript.IsHolding)
         {
             if(ChargeRate <= 3) ChargeRate += Time.deltaTime;
+            Percentage.value = ChargeRate;
+            Percentage.max = 3;
         }
         if (Input.GetKeyUp(KeyCode.Q))
         {

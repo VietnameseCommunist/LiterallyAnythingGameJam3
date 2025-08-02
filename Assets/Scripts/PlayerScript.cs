@@ -11,6 +11,7 @@ public class PlayerScript : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+         GradientOverlay.MakeGradient(0, Color.black);
         IsHolding = false;
         IsGun = false;
     }
