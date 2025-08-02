@@ -2,72 +2,100 @@ using UnityEngine;
 
 public class PlayerDamage : MonoBehaviour
 {
-    [SerializeField] private GameObject HoldingObject;
-    [SerializeField] private bool IsHolding;
+    public PlayerScript playerScript;
 
-    [SerializeField] private Transform Camera;
-    [SerializeField] private Transform Hand;
-  
-    public GunData gunData;
-    [SerializeField] float ShootingDistance;
+    [SerializeField] private float ChargeRate; //for throwing
+    [SerializeField] private float MaxRate = 3;
 
-    Ray ray;
-    RaycastHit hit;
+    public Transform Camera;
+    public Transform Hand;
+
+    public Ray ray;
+    public RaycastHit hit;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        IsHolding = false;
+        playerScript = GetComponent<PlayerScript>();
     }
 
     // Update is called once per frame
     void Update()
     {
         ray = new Ray(Camera.position, Camera.forward);
-        if (Input.GetMouseButtonDown(0))
-        {
-            DealDamage();
-        }
         Debug.DrawRay(Camera.position, Camera.forward);
 
-        if (Input.GetKeyDown(KeyCode.E) && !IsHolding)
+        if (Input.GetKeyDown(KeyCode.E) && !playerScript.IsHolding)
         {
             PickUpObject();
         }
-        else if(IsHolding)
+        else if (playerScript.IsHolding)
         {
             HoldObject();
         }
 
-    }
-    void DealDamage()
-    {
-        if(Physics.Raycast(ray, out hit, ShootingDistance, 1<<3))
+        if (playerScript.HoldingObject == null) return;
+
+        //main attack
+        if (playerScript.IsGun && playerScript.IsHolding)
         {
-            hit.collider.GetComponent<Enemy>().GetDamage(gunData.Damage);
-            Debug.Log(hit.collider.name);
+            Gun gun = playerScript.HoldingObject.GetComponent<Gun>();
+            if (Input.GetMouseButtonDown(0))
+            {
+                gun.Heal();
+            }
+        }
+        else if (!playerScript.IsGun && playerScript.IsHolding)
+        {
+            Heal heal = playerScript.HoldingObject.GetComponent<Heal>();
+            if (Input.GetMouseButtonDown(0))
+            {
+                heal.Damage();
+            }
+        }
+
+        //throw
+        if(Input.GetKey(KeyCode.Q) && playerScript.IsHolding)
+        {
+            if(ChargeRate <= 3) ChargeRate += Time.deltaTime;
+        }
+        if (Input.GetKeyUp(KeyCode.Q))
+        {
+            float Ratio = ChargeRate / MaxRate;
+            if (playerScript.HoldingObject.GetComponent<Gun>() != null) playerScript.HoldingObject.GetComponent<Gun>().DamageByThrowing(Ratio);
+            else playerScript.HoldingObject.GetComponent<Heal>().DamageByThrowing(Ratio);
+            ChargeRate = 0;
         }
     }
     void PickUpObject()
     {
-        if (Physics.Raycast(ray, out hit, 5, 1 << 7))
+        if (Physics.Raycast(ray, out hit, 5))
         {
-            HoldingObject = hit.collider.gameObject;
-            hit.collider.GetComponent<Rigidbody>().useGravity = false;
-            IsHolding = true;
-            
+            playerScript.HoldingObject = hit.collider.gameObject;
+            Rigidbody rb = hit.collider.GetComponent<Rigidbody>();
+            rb.useGravity = false;
+            playerScript.IsHolding = true;
+            rb.isKinematic = true;
         }
+
+        if(playerScript.HoldingObject.GetComponent<Gun>() != null)
+        {
+            playerScript.IsGun = true;
+        }
+        else playerScript.IsGun = false;
     }
     void HoldObject()
     {
-        HoldingObject.transform.position = Camera.position + Camera.rotation * new Vector3(0.5f, -0.2f, 1);
-        HoldingObject.transform.rotation = Camera.rotation;
+        playerScript.HoldingObject.transform.position = Camera.position + Camera.rotation * new Vector3(0.5f, -0.2f, 1);
+        playerScript.HoldingObject.transform.rotation = Camera.rotation;
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            IsHolding = false;
-            HoldingObject.GetComponent<Rigidbody>().useGravity = true;
-            HoldingObject = null;
+            playerScript.IsGun = false;
+            playerScript.IsHolding = false;
+            playerScript.HoldingObject.GetComponent<Rigidbody>().useGravity = true;
+            playerScript.HoldingObject.GetComponent <Rigidbody>().isKinematic = false;
+            playerScript.HoldingObject = null;
         }
     }
 }

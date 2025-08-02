@@ -1,20 +1,22 @@
 using UnityEngine;
 
-public class PlayerHeal : MonoBehaviour
+public class PlayerScript : MonoBehaviour
 {
-    [SerializeField] private GameObject HoldingObject;
+    public GameObject HoldingObject;
+    public bool IsHolding;
+    public bool IsGun;
+
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        IsHolding = false;
+        IsGun = false;
     }
 
     // Update is called once per frame
     void Update()
-    {
-        
-    }
-    void PickUpObject()
     {
 
     }
