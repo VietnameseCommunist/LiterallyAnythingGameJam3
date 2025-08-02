@@ -53,6 +53,7 @@ public class PlayerDamage : MonoBehaviour
         if (Physics.Raycast(ray, out hit, 5, 1 << 7))
         {
             HoldingObject = hit.collider.gameObject;
+            hit.collider.GetComponent<Rigidbody>().useGravity = false;
             IsHolding = true;
             
         }
@@ -65,6 +66,8 @@ public class PlayerDamage : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E))
         {
             IsHolding = false;
+            HoldingObject.GetComponent<Rigidbody>().useGravity = true;
+            HoldingObject = null;
         }
     }
 }

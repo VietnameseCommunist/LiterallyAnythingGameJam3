@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7db9f42761485e54daf6d193fcc85e6c, type: 3}
   m_Name: Gun1
   m_EditorClassIdentifier: 
-  Damage: 0
+  Damage: 1
