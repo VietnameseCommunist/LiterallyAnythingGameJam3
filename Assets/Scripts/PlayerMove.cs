@@ -13,10 +13,10 @@ public class PlayerMove : MonoBehaviour
     // KeyCode 
     public KeyCode jumpKey = KeyCode.Space;
 
-    bool ReadyToJump;
     bool Grounded;
 
     public float JumpForce;
+    public float DownForce;
 
     Vector3 MoveDirection;
 
@@ -26,7 +26,7 @@ public class PlayerMove : MonoBehaviour
     {
         RB = GetComponent<Rigidbody>();
         RB.freezeRotation = true;
-        ReadyToJump = true;
+        Grounded = true;
     }
 
     private void Update()
@@ -34,9 +34,9 @@ public class PlayerMove : MonoBehaviour
         MyInput();
         MovePlayer();
 
-        if(Grounded == true)
+        if (Grounded != true)
         {
-            ReadyToJump = true;
+            Invoke("ReverseJump", 0.5f);
         }
 
 
@@ -49,10 +49,11 @@ public class PlayerMove : MonoBehaviour
         HorizontalInput = Input.GetAxisRaw("Horizontal");
         VerticalInput = Input.GetAxisRaw("Vertical");
 
-        if (Input.GetKey(jumpKey) && ReadyToJump == true && Grounded != true)
+        if (Input.GetKey(jumpKey) && Grounded == true)
         {
-            ReadyToJump = false;
+            
             Jump();
+            Grounded = false;
 
         }
 
@@ -64,15 +65,25 @@ public class PlayerMove : MonoBehaviour
         
         // Calculate Movement Direction
         MoveDirection = Orientation.forward * VerticalInput + Orientation.right * HorizontalInput;
-        transform.position += MoveDirection * Time.deltaTime * MoveSpeed;
+        RB.position += MoveDirection * Time.deltaTime * MoveSpeed;
 
     }
 
     private void Jump()
     {
-        ReadyToJump = false;
         RB.AddForce(0, JumpForce, 0, ForceMode.Impulse);
-        ReadyToJump = true;
+    }
+    private void ReverseJump()
+    {
+        RB.AddForce(0, DownForce, 0, ForceMode.Force);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Ground")
+        {
+            Grounded = true;
+        }
     }
 
 }
