@@ -985,7 +985,7 @@ MonoBehaviour:
   ChargeRate: 0
   MaxRate: 3
   Camera: {fileID: 588935839}
-  Hand: {fileID: 596344842}
+  Hand: {fileID: 0}
 --- !u!114 &989389952
 MonoBehaviour:
   m_ObjectHideFlags: 0
