@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 25593003}
   - component: {fileID: 25593002}
   - component: {fileID: 25593001}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: PlayerCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -312,7 +312,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 355139266}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -456,7 +456,7 @@ GameObject:
   - component: {fileID: 679247585}
   - component: {fileID: 679247584}
   - component: {fileID: 679247583}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Temp Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -629,6 +629,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MoveSpeed: 10
   Orientation: {fileID: 123445363}
+  jumpKey: 32
+  JumpForce: 1
 --- !u!1 &1459111955
 GameObject:
   m_ObjectHideFlags: 0
@@ -792,7 +794,7 @@ GameObject:
   - component: {fileID: 1920862417}
   - component: {fileID: 1920862419}
   - component: {fileID: 1920862418}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: CameraHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
