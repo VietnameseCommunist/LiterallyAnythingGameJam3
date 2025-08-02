@@ -9,7 +9,6 @@ public class GradientOverlay : MonoBehaviour
     void Start()
     {
          if (!Instance) Instance = this;
-         StartCoroutine(GradientTemporary(2, Color.black, 5, 1));
     }
 
     // Update is called once per frame
