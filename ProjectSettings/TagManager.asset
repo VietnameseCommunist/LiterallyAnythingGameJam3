@@ -3,6 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
+  tags:
+  - Ground
   tags: []
   layers:
   - Default
@@ -11,11 +13,13 @@ TagManager:
   - Enemy
   - Water
   - UI
+  - 
+  - HealObjects
+  - 
   - Weapons
   - Ground
   - 
-  - 
-  - 
+  -
   - 
   - 
   - 
@@ -38,7 +42,8 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: Default
+  - name: 
+    Default
     uniqueID: 0
     locked: 0
   m_RenderingLayers:
