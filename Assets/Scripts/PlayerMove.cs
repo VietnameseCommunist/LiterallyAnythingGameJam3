@@ -17,6 +17,8 @@ public class PlayerMove : MonoBehaviour
 
     public float JumpForce;
     public float DownForce;
+    public float JumpDelay;
+
 
     Vector3 MoveDirection;
 
@@ -36,7 +38,7 @@ public class PlayerMove : MonoBehaviour
 
         if (Grounded != true)
         {
-            Invoke("ReverseJump", 0.5f);
+            Invoke("ReverseJump", JumpDelay);
         }
 
 
