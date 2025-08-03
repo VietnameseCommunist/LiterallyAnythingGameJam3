@@ -3,26 +3,32 @@ using UnityEngine;
 public class PlayerScript : MonoBehaviour
 {
     public static PlayerScript instance;
+    public PlayerDamage playerDamage;
+    public PlayerCam playerCam;
 
     public GameObject HoldingObject;
-    public bool IsHolding;
     public bool IsGun;
 
     [SerializeField] private int Health;
 
+    public HoldingState HoldState;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void Awake()
     {
         if (instance == null) { instance = this; }
+        else
+        {
+            Destroy(instance);
+            if (instance == null) { instance = this; }
+        }
 
-        IsHolding = false;
+        HoldState = HoldingState.NotHolding;
         IsGun = false;
 
         Health = 100;
-    }
-    private void Awake()
-    {
-        if (instance == null) { instance = this; }
+        playerDamage = GetComponent<PlayerDamage>();
+        playerCam = GetComponentInChildren<PlayerCam>();
     }
     // Update is called once per frame
     void Update()
@@ -33,4 +39,6 @@ public class PlayerScript : MonoBehaviour
     {
         Health -= damage;
     }
+
+    public enum HoldingState { NotHolding,Holding}
 }

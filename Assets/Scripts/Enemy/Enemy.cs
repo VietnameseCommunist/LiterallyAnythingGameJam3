@@ -49,7 +49,6 @@ public class Enemy : MonoBehaviour
         { 
             if (hit.collider.tag == "Player")
             {
-                Debug.Log(hit.collider.gameObject.name);
                 if (AttackRateFill >= enemyData.AttackRate)
                 {
                     if (hit.collider == null) Debug.Log("There is no player");

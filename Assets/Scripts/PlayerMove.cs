@@ -40,6 +40,8 @@ public class PlayerMove : MonoBehaviour
     {
         // Calculate Movement Direction
         MoveDirection = Orientation.forward * VerticalInput + Orientation.right * HorizontalInput;
-        transform.position += MoveDirection * Time.deltaTime * MoveSpeed;
+        //transform.position += MoveDirection * Time.deltaTime * MoveSpeed;
+        Vector3 targetPosition = RB.position + MoveDirection * Time.deltaTime * MoveSpeed;
+        RB.MovePosition(targetPosition);
     }
 }

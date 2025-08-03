@@ -417,6 +417,7 @@ MonoBehaviour:
   SensX: 500
   SensY: 500
   orientation: {fileID: 807864169}
+  cam: {fileID: 0}
 --- !u!114 &588935841
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -502,7 +503,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 70
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
@@ -695,6 +696,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healData: {fileID: 11400000, guid: 7aa327f50a89a3e4e9c17cabdb2b0b00, type: 2}
+  playerDamage: {fileID: 0}
   IsOnGround: 0
 --- !u!54 &764635580
 Rigidbody:
@@ -998,10 +1000,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e61f9614ae76b34bae4ff435ee4b9ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerDamage: {fileID: 0}
+  playerCam: {fileID: 588935840}
   HoldingObject: {fileID: 0}
-  IsHolding: 0
   IsGun: 0
   Health: 100
+  HoldState: 0
 --- !u!114 &989389951
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1029,7 +1033,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db82ac13b17041246ab37255168eaa3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MoveSpeed: 10
+  MoveSpeed: 5
   Orientation: {fileID: 807864169}
 --- !u!54 &989389953
 Rigidbody:
@@ -1153,7 +1157,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0

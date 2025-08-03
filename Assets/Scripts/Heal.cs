@@ -3,16 +3,15 @@ using UnityEngine;
 public class Heal : MonoBehaviour
 {
     public HealData healData;
-    private PlayerDamage playerDamage;
+    [SerializeField] private PlayerDamage playerDamage;
 
     public bool IsOnGround;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        playerDamage = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerDamage>();
+        playerDamage = PlayerScript.instance.playerDamage.GetComponent<PlayerDamage>();
     }
-
     // Update is called once per frame
     void Update()
     {
@@ -37,10 +36,10 @@ public class Heal : MonoBehaviour
         Rigidbody rb = PlayerScript.instance.HoldingObject.GetComponent<Rigidbody>();
         rb.useGravity = true;
         rb.isKinematic = false;
-        PlayerScript.instance.IsHolding = false;
-        PlayerScript.instance.HoldingObject = null;
+        PlayerScript.instance.HoldState = PlayerScript.HoldingState.NotHolding;
         Vector3 seeyuh = Quaternion.AngleAxis(-25, playerDamage.Camera.right) * playerDamage.Camera.forward;
         rb.AddForce(seeyuh * (500f * ChargeRateRatio));
+        PlayerScript.instance.HoldingObject = null;
     }
     private void OnCollisionEnter(Collision collision)
     {
