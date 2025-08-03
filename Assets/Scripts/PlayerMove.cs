@@ -64,11 +64,11 @@ public class PlayerMove : MonoBehaviour
     // Moves Player
     private void MovePlayer()
     {
-        
         // Calculate Movement Direction
         MoveDirection = Orientation.forward * VerticalInput + Orientation.right * HorizontalInput;
-        RB.position += MoveDirection * Time.deltaTime * MoveSpeed;
-
+        //transform.position += MoveDirection * Time.deltaTime * MoveSpeed;
+        Vector3 targetPosition = RB.position + MoveDirection * Time.deltaTime * MoveSpeed;
+        RB.MovePosition(targetPosition);
     }
 
     private void Jump()

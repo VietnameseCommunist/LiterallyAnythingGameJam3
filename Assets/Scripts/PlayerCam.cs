@@ -11,11 +11,17 @@ public class PlayerCam : MonoBehaviour
     float XRotation;
     float YRotation;
 
+    public static float DefaultPOV = 70;
+    public Camera cam;
+
     public void Start()
     {
        // Locks Cursor
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        cam = GetComponent<Camera>();
+        cam.fieldOfView = DefaultPOV;
     }
 
     public void Update()
