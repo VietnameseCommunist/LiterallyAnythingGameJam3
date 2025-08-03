@@ -39,6 +39,10 @@ public class PlayerScript : MonoBehaviour
     {
         Health -= damage;
     }
+    void Die()
+    {
+
+    }
 
     public enum HoldingState { NotHolding,Holding}
 }

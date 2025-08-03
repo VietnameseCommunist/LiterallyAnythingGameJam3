@@ -54,7 +54,7 @@ public class Gun : MonoBehaviour
 
         if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Enemy") && !IsOnGround)
         {
-            Enemy enemy = collision.collider.gameObject.GetComponent<Enemy>();
+            Enemy enemy = collision.collider.gameObject.GetComponentInParent<Enemy>();
             enemy.GetDamage(-gunData.ThrowDamage);
         }
     }

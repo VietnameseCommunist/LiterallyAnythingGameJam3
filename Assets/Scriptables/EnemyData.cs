@@ -6,5 +6,5 @@ public class EnemyData : ScriptableObject
     public int Health = 100;
     public int Damage = 5;
 
-    public int AttackRate = 2;
+    public int AttackRate = 1;
 }

@@ -17,7 +17,7 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         Health = enemyData.Health;
-        agent = GetComponent<NavMeshAgent>();
+        agent = GetComponentInChildren<NavMeshAgent>();
     }
 
     // Update is called once per frame
@@ -25,25 +25,22 @@ public class Enemy : MonoBehaviour
     {
         ray = new Ray(transform.position, transform.forward);
 
-        DistanceFromPlayer = Vector3.Distance(transform.position, PlayerScript.instance.transform.position);
-        if(DistanceFromPlayer > 2)
-        {
-            agent.SetDestination(PlayerScript.instance.gameObject.transform.position);
-        }
-        else if(DistanceFromPlayer < 2)
-        {
-            agent.ResetPath();
-        }
+        Moving();
         Fight();
     }
     public void GetDamage(int damage)
     {
-        Health -= damage;
+        if (Health > 0) Health -= damage;
+        else Die();
+    }
+    void Die()
+    {
+        Destroy(gameObject);
     }
     void Fight()
     {
-        Debug.DrawRay(transform.position, transform.forward);
-        Ray ray = new Ray(transform.position, transform.forward);
+        Debug.DrawRay(agent.gameObject.transform.position, agent.gameObject.transform.forward);
+        Ray ray = new Ray(agent.gameObject.transform.position, agent.gameObject.transform.forward);
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, 5))
         { 
@@ -58,6 +55,25 @@ public class Enemy : MonoBehaviour
                 }
                 else AttackRateFill += Time.deltaTime;
             }
+        }
+    }
+    void FaceThePlayer()
+    {
+        Vector3 DirectionToPlayer = (PlayerScript.instance.transform.position - agent.gameObject.transform.position).normalized;
+        DirectionToPlayer.y = 0;
+        agent.gameObject.transform.rotation = Quaternion.LookRotation(DirectionToPlayer);
+    }
+    void Moving()
+    {
+        DistanceFromPlayer = Vector3.Distance(PlayerScript.instance.gameObject.transform.position, agent.gameObject.transform.position);
+        if (DistanceFromPlayer > 2)
+        {
+            agent.SetDestination(PlayerScript.instance.gameObject.transform.position);
+        }
+        else if (DistanceFromPlayer < 2)
+        {
+            agent.ResetPath();
+            FaceThePlayer();
         }
     }
 }

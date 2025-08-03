@@ -62,6 +62,7 @@ public class PlayerDamage : MonoBehaviour
         }
         if (Input.GetKeyUp(KeyCode.E) && PlayerScript.instance.HoldingObject != null)
         {
+            PlayerScript.instance.HoldingObject.GetComponent<Collider>().enabled = true;
             float Ratio = ChargeRate / MaxRate;
             if (PlayerScript.instance.HoldingObject.GetComponent<Gun>() != null) PlayerScript.instance.HoldingObject.GetComponent<Gun>().DamageByThrowing(Ratio);
             else PlayerScript.instance.HoldingObject.GetComponent<Heal>().DamageByThrowing(Ratio);
@@ -91,9 +92,11 @@ public class PlayerDamage : MonoBehaviour
     {
         PlayerScript.instance.HoldingObject.transform.position = Camera.position + Camera.rotation * new Vector3(0.5f, -0.2f, 1);
         PlayerScript.instance.HoldingObject.transform.rotation = Camera.rotation;
+        PlayerScript.instance.HoldingObject.GetComponent<Collider>().enabled = false;
 
         if (Input.GetKeyDown(KeyCode.F))
         {
+            PlayerScript.instance.HoldingObject.GetComponent<Collider>().enabled = true;
             PlayerScript.instance.IsGun = false;
             PlayerScript.instance.HoldState = PlayerScript.HoldingState.NotHolding;
             PlayerScript.instance.HoldingObject.GetComponent<Rigidbody>().useGravity = true;
