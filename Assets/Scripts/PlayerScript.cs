@@ -39,6 +39,7 @@ public class PlayerScript : MonoBehaviour
     public void GetDamage(int damage)
     {
         Health -= damage;
+        HealthUI.SetTo(Health);
     }
     void Die()
     {
