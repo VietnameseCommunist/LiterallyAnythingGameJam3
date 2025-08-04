@@ -9,6 +9,7 @@ public class AmmunitionUI : MonoBehaviour
      public Vector3 startPosition;
      public Vector3 firstChildPos;
 
+     public Sprite defaulter;
      public Sprite[] ammoSprites;
      public Image img;
 
@@ -28,6 +29,11 @@ public class AmmunitionUI : MonoBehaviour
          if (Input.GetKeyDown(KeyCode.P))
          {
               ShootEffect(debugRecoil);
+         }
+
+         if (img.sprite == null && defaulter)
+         {
+              img.sprite = defaulter;
          }
     }
 
