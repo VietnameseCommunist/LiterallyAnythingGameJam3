@@ -21,8 +21,6 @@ public class AmmunitionUI : MonoBehaviour
          if (!Instance) Instance = this;
          startPosition = transform.position;
          firstChildPos = transform.GetChild(0).transform.localPosition;
-         ChangeAmmoDisplay(0);
-         ChangeAmmoCount(200, 200);
     }
 
     void Update()
