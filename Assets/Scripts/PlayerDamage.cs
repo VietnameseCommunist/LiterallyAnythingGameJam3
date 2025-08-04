@@ -59,6 +59,8 @@ public class PlayerDamage : MonoBehaviour
                 ChargeRate += Time.deltaTime;
                 PlayerScript.instance.playerCam.cam.fieldOfView -= Time.deltaTime * 6;
             }
+            Percentage.value = ChargeRate;
+            Percentage.max = 3;
         }
         if (Input.GetKeyUp(KeyCode.E) && PlayerScript.instance.HoldingObject != null)
         {
