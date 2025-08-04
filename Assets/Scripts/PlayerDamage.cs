@@ -2,13 +2,10 @@ using UnityEngine;
 
 public class PlayerDamage : MonoBehaviour
 {
-    public PlayerScript playerScript;
-
     [SerializeField] private float ChargeRate; //for throwing
     [SerializeField] private float MaxRate = 3;
 
     public Transform Camera;
-    public Transform Hand;
 
     public Ray ray;
     public RaycastHit hit;
@@ -16,7 +13,6 @@ public class PlayerDamage : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        playerScript = GetComponent<PlayerScript>();
     }
 
     // Update is called once per frame
@@ -25,80 +21,89 @@ public class PlayerDamage : MonoBehaviour
         ray = new Ray(Camera.position, Camera.forward);
         Debug.DrawRay(Camera.position, Camera.forward);
 
-        if (Input.GetKeyDown(KeyCode.E) && !playerScript.IsHolding)
+        if (Input.GetKeyDown(KeyCode.F) && PlayerScript.instance.HoldState == PlayerScript.HoldingState.NotHolding)
         {
             PickUpObject();
         }
-        else if (playerScript.IsHolding)
+        else if (PlayerScript.instance.HoldState == PlayerScript.HoldingState.Holding)
         {
             HoldObject();
         }
 
-        if (playerScript.HoldingObject == null) return;
+        if (PlayerScript.instance.HoldingObject == null) return;
 
         //main attack
-        if (playerScript.IsGun && playerScript.IsHolding)
+        if (PlayerScript.instance.IsGun && PlayerScript.instance.HoldState == PlayerScript.HoldingState.Holding)
         {
-            Gun gun = playerScript.HoldingObject.GetComponent<Gun>();
+            Gun gun = PlayerScript.instance.HoldingObject.GetComponent<Gun>();
             if (Input.GetMouseButtonDown(0))
             {
                 gun.Heal();
             }
         }
-        else if (!playerScript.IsGun && playerScript.IsHolding)
+        else if (!PlayerScript.instance.IsGun && PlayerScript.instance.HoldState == PlayerScript.HoldingState.Holding)
         {
-            Heal heal = playerScript.HoldingObject.GetComponent<Heal>();
+            Heal heal = PlayerScript.instance.HoldingObject.GetComponent<Heal>();
             if (Input.GetMouseButtonDown(0))
             {
                 heal.Damage();
+
             }
         }
 
         //throw
-        if(Input.GetKey(KeyCode.Q) && playerScript.IsHolding)
+        if(Input.GetKey(KeyCode.E) && PlayerScript.instance.HoldState == PlayerScript.HoldingState.Holding)
         {
-            if(ChargeRate <= 3) ChargeRate += Time.deltaTime;
+            if (ChargeRate <= 3)
+            {
+                ChargeRate += Time.deltaTime;
+                PlayerScript.instance.playerCam.cam.fieldOfView -= Time.deltaTime * 6;
+            }
             Percentage.value = ChargeRate;
             Percentage.max = 3;
         }
-        if (Input.GetKeyUp(KeyCode.Q))
+        if (Input.GetKeyUp(KeyCode.E) && PlayerScript.instance.HoldingObject != null)
         {
+            PlayerScript.instance.HoldingObject.GetComponent<Collider>().enabled = true;
             float Ratio = ChargeRate / MaxRate;
-            Percentage.value = 0;
-            if (playerScript.HoldingObject.GetComponent<Gun>() != null) playerScript.HoldingObject.GetComponent<Gun>().DamageByThrowing(Ratio);
-            else playerScript.HoldingObject.GetComponent<Heal>().DamageByThrowing(Ratio);
+            if (PlayerScript.instance.HoldingObject.GetComponent<Gun>() != null) PlayerScript.instance.HoldingObject.GetComponent<Gun>().DamageByThrowing(Ratio);
+            else PlayerScript.instance.HoldingObject.GetComponent<Heal>().DamageByThrowing(Ratio);
             ChargeRate = 0;
+            PlayerScript.instance.playerCam.cam.fieldOfView = PlayerCam.DefaultPOV;
         }
     }
     void PickUpObject()
     {
-        if (Physics.Raycast(ray, out hit, 5))
+        if (Physics.Raycast(ray, out hit, 5, 1<<6))
         {
-            playerScript.HoldingObject = hit.collider.gameObject;
+            PlayerScript.instance.HoldingObject = hit.collider.gameObject;
             Rigidbody rb = hit.collider.GetComponent<Rigidbody>();
             rb.useGravity = false;
-            playerScript.IsHolding = true;
+            PlayerScript.instance.HoldState = PlayerScript.HoldingState.Holding;
             rb.isKinematic = true;
         }
+        else return;
 
-        if(playerScript.HoldingObject.GetComponent<Gun>() != null)
+        if (PlayerScript.instance.HoldingObject.GetComponent<Gun>() != null)
         {
-            playerScript.IsGun = true;
+            PlayerScript.instance.IsGun = true;
         }
-        else playerScript.IsGun = false;
+        else PlayerScript.instance.IsGun = false;
     }
     void HoldObject()
     {
-        playerScript.HoldingObject.transform.position = Camera.position + Camera.rotation * new Vector3(0.5f, -0.2f, 1);
-        playerScript.HoldingObject.transform.rotation = Camera.rotation;
+        PlayerScript.instance.HoldingObject.transform.position = Camera.position + Camera.rotation * new Vector3(0.5f, -0.2f, 1);
+        PlayerScript.instance.HoldingObject.transform.rotation = Camera.rotation;
+        PlayerScript.instance.HoldingObject.GetComponent<Collider>().enabled = false;
 
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.F))
         {
-            playerScript.IsGun = false;
-            playerScript.IsHolding = false;
-            playerScript.HoldingObject.GetComponent<Rigidbody>().useGravity = true;
-            playerScript.HoldingObject.GetComponent <Rigidbody>().isKinematic = false;
-            playerScript.HoldingObject = null;
+            PlayerScript.instance.HoldingObject.GetComponent<Collider>().enabled = true;
+            PlayerScript.instance.IsGun = false;
+            PlayerScript.instance.HoldState = PlayerScript.HoldingState.NotHolding;
+            PlayerScript.instance.HoldingObject.GetComponent<Rigidbody>().useGravity = true;
+            PlayerScript.instance.HoldingObject.GetComponent <Rigidbody>().isKinematic = false;
+            PlayerScript.instance.HoldingObject = null;
         }
     }
 }

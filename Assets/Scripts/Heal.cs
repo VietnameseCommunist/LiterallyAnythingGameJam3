@@ -3,16 +3,15 @@ using UnityEngine;
 public class Heal : MonoBehaviour
 {
     public HealData healData;
-    private PlayerDamage playerDamage;
+    [SerializeField] private PlayerDamage playerDamage;
 
     public bool IsOnGround;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        playerDamage = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerDamage>();
+        playerDamage = PlayerScript.instance.playerDamage.GetComponent<PlayerDamage>();
     }
-
     // Update is called once per frame
     void Update()
     {
@@ -28,19 +27,19 @@ public class Heal : MonoBehaviour
     }
     public void DamageByThrowing(float ChargeRateRatio)
     {
-        if (playerDamage.playerScript.HoldingObject == null)
+        if (PlayerScript.instance.HoldingObject == null)
         {
             Debug.Log("Player is not holding anything");
             return;
         }
 
-        Rigidbody rb = playerDamage.playerScript.HoldingObject.GetComponent<Rigidbody>();
+        Rigidbody rb = PlayerScript.instance.HoldingObject.GetComponent<Rigidbody>();
         rb.useGravity = true;
         rb.isKinematic = false;
-        playerDamage.playerScript.IsHolding = false;
-        playerDamage.playerScript.HoldingObject = null;
+        PlayerScript.instance.HoldState = PlayerScript.HoldingState.NotHolding;
         Vector3 seeyuh = Quaternion.AngleAxis(-25, playerDamage.Camera.right) * playerDamage.Camera.forward;
         rb.AddForce(seeyuh * (500f * ChargeRateRatio));
+        PlayerScript.instance.HoldingObject = null;
     }
     private void OnCollisionEnter(Collision collision)
     {
@@ -53,7 +52,7 @@ public class Heal : MonoBehaviour
 
         if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Enemy") && !IsOnGround)
         {
-            Enemy enemy = collision.collider.gameObject.GetComponent<Enemy>();
+            Enemy enemy = collision.collider.gameObject.GetComponentInParent<Enemy>();
             enemy.GetDamage(healData.ThrowDamage);
         }
     }
