@@ -14,22 +14,22 @@ public class AmmunitionUI : MonoBehaviour
 
      public Text AmmoCount;
 
-
+     [SerializeField] float debugRecoil;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
          if (!Instance) Instance = this;
          startPosition = transform.position;
-         firstChildPos = transform.GetChild(0).transform.position;
+         firstChildPos = transform.GetChild(0).transform.localPosition;
          ChangeAmmoDisplay(0);
-         ChangeAmmoCount(200);
+         ChangeAmmoCount(200, 200);
     }
 
     void Update()
     {
          if (Input.GetKeyDown(KeyCode.P))
          {
-              ShootEffect(600f);
+              ShootEffect(debugRecoil);
          }
     }
 
@@ -39,15 +39,16 @@ public class AmmunitionUI : MonoBehaviour
          if (Instance && recoil > 0) Instance.StartCoroutine(Instance.Recoil(recoil));
     }
 
-    public static void ChangeAmmoCount(int number)
+    public static int ChangeAmmoCount(int number, int max)
     {
          if (Instance)
          {
               if (Instance.AmmoCount)
               {
-                  Instance.AmmoCount.text = number.ToString();
+                  Instance.AmmoCount.text = number.ToString() + "/" + max.ToString();
               }
          }
+         return number;
     }
 
     //Assault
@@ -66,7 +67,7 @@ public class AmmunitionUI : MonoBehaviour
          transform.position = startPosition;
          if (transform.childCount > 0)
          {
-              transform.GetChild(0).transform.position = firstChildPos;
+              transform.GetChild(0).transform.localPosition = firstChildPos;
          }
          float goThrough = recoil;
          float offset = 0;
@@ -74,6 +75,8 @@ public class AmmunitionUI : MonoBehaviour
          redo = false;
          yield return null;
          redo = true;
+
+         bool temp = false;
          while (goThrough > 0)
          {
               if (!redo)
@@ -81,14 +84,22 @@ public class AmmunitionUI : MonoBehaviour
                    redo = true;
                    yield break;
               }
-              goThrough -= modifier * Time.deltaTime;
+              goThrough -= modifier * Time.deltaTime * 5;
               if (offset < 100)
               {
-                   offset += modifier * Time.deltaTime;
-                   transform.position += new Vector3(modifier * Time.deltaTime, 0, 0);
+                   offset += modifier * Time.deltaTime * 5;
+                   transform.position += new Vector3(modifier * Time.deltaTime * 5, 0, 0);
                    if (transform.childCount > 0)
                    {
-                        transform.GetChild(0).transform.position += new Vector3(modifier * Time.deltaTime, 0, 0) / 1.2f;
+                        transform.GetChild(0).transform.localPosition += new Vector3(modifier * Time.deltaTime * 5, 0, 0) * 1.5f;
+                   }
+              }
+              else
+              {
+                   if (!temp)
+                   {
+                        goThrough = (offset - 60) / 3;
+                        temp = true;
                    }
               }
               yield return null;
@@ -100,18 +111,18 @@ public class AmmunitionUI : MonoBehaviour
                    redo = true;
                    yield break;
               }
-              transform.position -= new Vector3(75 * 0.05f, 0, 0);
+              transform.position = Vector3.Lerp(transform.position, startPosition, modifier * Time.deltaTime / 30);
               if (transform.childCount > 0)
               {
-                   transform.GetChild(0).transform.position -= new Vector3(modifier * Time.deltaTime, 0, 0) / 1.2f;
+                   transform.GetChild(0).transform.localPosition = Vector3.Lerp(transform.GetChild(0).transform.localPosition, firstChildPos, modifier * Time.deltaTime / 30);
               }
-              offset -= 75 * 0.05f;
-              yield return new WaitForSeconds(0.05f);
+              offset -= (offset + 10) * Time.deltaTime;
+              yield return null;
          }
          transform.position = startPosition;
          if (transform.childCount > 0)
          {
-              transform.GetChild(0).transform.position = firstChildPos;
+              transform.GetChild(0).transform.localPosition = firstChildPos;
          }
          redo = false;
     }
