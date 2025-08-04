@@ -7,6 +7,7 @@ public class Percentage : MonoBehaviour
 
      public static float value;
      public static float max;
+     public static bool instant;
 
      [SerializeField] float DebugValue;
      [SerializeField] float DebugMax;
@@ -14,6 +15,7 @@ public class Percentage : MonoBehaviour
     void Start()
     {
          max = 1;
+         instant = true;
     }
 
     void FixedUpdate()
@@ -24,7 +26,7 @@ public class Percentage : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
          if (!NeedleGameObject)
          {
@@ -33,7 +35,8 @@ public class Percentage : MonoBehaviour
          //To avoid useless division
          if (value == 0)
          {
-
+              if (!instant) NeedleGameObject.transform.localRotation = Quaternion.Lerp(NeedleGameObject.transform.localRotation, Quaternion.Euler(-Mathf.Clamp(0, 0, 180), 0, 0), 3f * Time.deltaTime);
+              else NeedleGameObject.transform.localRotation = Quaternion.Euler(-Mathf.Clamp(0, 0, 180),0,0);
               return;
          }
          //To avoid dividing by zero
@@ -41,6 +44,7 @@ public class Percentage : MonoBehaviour
          {
               return;
          }
-         NeedleGameObject.transform.rotation = Quaternion.Lerp(NeedleGameObject.transform.rotation, Quaternion.Euler(Mathf.Clamp(-180 + value / max * 180, -180, 0), 90,0), 3f * Time.deltaTime);
+         if (!instant) NeedleGameObject.transform.localRotation = Quaternion.Lerp(NeedleGameObject.transform.localRotation, Quaternion.Euler(-Mathf.Clamp(value / max * 180, 0, 180), 0, 0), 3f * Time.deltaTime);
+         else NeedleGameObject.transform.localRotation = Quaternion.Euler(-Mathf.Clamp(value / max * 180, 0, 180),0,0);
     }
 }
