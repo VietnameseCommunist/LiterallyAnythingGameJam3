@@ -64,6 +64,7 @@ public class PlayerDamage : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.Q))
         {
             float Ratio = ChargeRate / MaxRate;
+            Percentage.value = 0;
             if (playerScript.HoldingObject.GetComponent<Gun>() != null) playerScript.HoldingObject.GetComponent<Gun>().DamageByThrowing(Ratio);
             else playerScript.HoldingObject.GetComponent<Heal>().DamageByThrowing(Ratio);
             ChargeRate = 0;
