@@ -647,6 +647,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gunData: {fileID: 11400000, guid: c42162d79c5e2d74fa9be85237a01bfd, type: 2}
+  CurrentBullets: 10
   IsOnGround: 0
 --- !u!1 &679247581
 GameObject:
@@ -1198,7 +1199,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   agent: {fileID: 0}
   enemyData: {fileID: 11400000, guid: 1ab97aff8b376d74f933863f6b4a737b, type: 2}
-  Health: 0
+  Health: 100
+  AttackRateFill: 10
   DistanceFromPlayer: 0
 --- !u!136 &1031406699
 CapsuleCollider:
@@ -1541,7 +1543,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66dbb996c21b5f54ba78fd410c1cffc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ChargeRate: 0
   MaxRate: 3
   Camera: {fileID: 25593000}
 --- !u!114 &1447593338
@@ -1976,7 +1977,6 @@ Transform:
   - {fileID: 25593000}
   m_Father: {fileID: 1447593335}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-
 --- !u!1001 &2004720841
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2037,7 +2037,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 384835985}
   m_SourcePrefab: {fileID: 100100000, guid: 6987e04ef81acbd4ab24678e5ffdf647, type: 3}
-
 --- !u!1 &2133956432
 GameObject:
   m_ObjectHideFlags: 0
@@ -2148,7 +2147,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2133956432}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
-
 --- !u!1001 &4311785046141525171
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2218,7 +2216,6 @@ SceneRoots:
   - {fileID: 1856193551}
   - {fileID: 1427840026}
   - {fileID: 875542024}
-
   - {fileID: 655945597}
   - {fileID: 801191939}
   - {fileID: 1031406702}
