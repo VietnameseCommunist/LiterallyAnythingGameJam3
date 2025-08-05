@@ -27,11 +27,10 @@ public class Gun : MonoBehaviour
     void Update()
     {
 
-        Heal();
     }
     public void Heal()
     {
-        if (CurrentBullets <= 10)
+        if (CurrentBullets <= 0)
         {
             Reload();
             return;
