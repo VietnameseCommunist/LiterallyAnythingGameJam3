@@ -58,8 +58,8 @@ public class Percentage : MonoBehaviour
     }
     void ShakeShakeShake()
     {
-        float Xpos = Random.Range(-1,1) * 1.5f;
-        float Ypos = Random.Range(-1,1) * 1.5f;
+        float Xpos = Random.Range(-1,1) * 2;
+        float Ypos = Random.Range(-1,1) * 2;
 
         gameObject.GetComponent<RectTransform>().anchoredPosition = new Vector2(Xpos, -100 + Ypos);
     }

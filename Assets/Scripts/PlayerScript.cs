@@ -44,10 +44,10 @@ public class PlayerScript : MonoBehaviour
     {
         Health -= damage;
         HealthUI.SetTo(Health);
+        Gradient.Instance.ColorToRedWhenDamage();
     }
     void Die()
     {
-
     }
 
     public enum HoldingState { NotHolding,Holding}

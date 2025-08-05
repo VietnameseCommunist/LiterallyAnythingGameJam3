@@ -1,7 +1,7 @@
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Gun : MonoBehaviour, IReload
+public class Gun : MonoBehaviour
 {
     public GunData gunData;
     private PlayerDamage playerDamage;
@@ -20,13 +20,14 @@ public class Gun : MonoBehaviour, IReload
     // Update is called once per frame
     void Update()
     {
-        
+
     }
     public void Heal()
     {
         if (CurrentBullets <= 0)
         {
-            Reload();
+            ReloadingUI.StartReload(2);
+            CurrentBullets = gunData.MaxBullets;
             AmmunitionUI.ChangeAmmoCount(CurrentBullets, gunData.MaxBullets);
             return;
         }
@@ -70,12 +71,4 @@ public class Gun : MonoBehaviour, IReload
             enemy.GetDamage(-gunData.ThrowDamage);
         }
     }
-    public void Reload()
-    {
-        CurrentBullets = gunData.MaxBullets;
-    }
-}
-public interface IReload
-{
-    void Reload();
 }
