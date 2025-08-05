@@ -40,6 +40,10 @@ public class PlayerDamage : MonoBehaviour
             {
                 gun.Heal();
             }
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                gun.Reload();
+            }
         }
         else if (!PlayerScript.instance.IsGun && PlayerScript.instance.HoldState == PlayerScript.HoldingState.Holding)
         {

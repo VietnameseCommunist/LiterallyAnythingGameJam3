@@ -1,19 +1,20 @@
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 
 
 [System.Serializable]
-public class Gun : MonoBehaviour, IReload
+public class Gun : MonoBehaviour
 {
 
     public GunData gunData;
     private PlayerDamage playerDamage;
-    public PlayerScript playerScript;
+
+    public bool IsReload = false;
 
     public int CurrentBullets;
 
     public bool IsOnGround;
-    bool Reloading;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -22,7 +23,6 @@ public class Gun : MonoBehaviour, IReload
         playerDamage = PlayerScript.instance.playerDamage.GetComponent<PlayerDamage>();
         CurrentBullets = gunData.MaxBullets;
     }
-
     // Update is called once per frame
     void Update()
     {
@@ -31,19 +31,18 @@ public class Gun : MonoBehaviour, IReload
     }
     public void Heal()
     {
-        if (CurrentBullets <= 10 && Input.GetKeyDown(KeyCode.R) && playerScript.IsGun == true && Reloading != true)
+        if (CurrentBullets <= 10)
         {
-             Debug.Log("Reload Detected");
-            Reloading = true;
-            Invoke("Reload", 2f);
-            AmmunitionUI.ChangeAmmoCount(CurrentBullets, gunData.MaxBullets);
+            Reload();
             return;
         }
-        if (Input.GetKeyDown(KeyCode.Mouse0) && CurrentBullets >= 0 && playerScript.IsGun == true && Reloading != true)
+        else if (!IsReload)
         {
             CurrentBullets--;
             AmmunitionUI.ChangeAmmoCount(CurrentBullets, gunData.MaxBullets);
         }
+
+        if (IsReload) return;
 
         if (Physics.Raycast(playerDamage.ray, out playerDamage.hit, gunData.Distance, 1 << 3))
         {
@@ -79,14 +78,22 @@ public class Gun : MonoBehaviour, IReload
             enemy.GetDamage(-gunData.ThrowDamage);
         }
     }
-
+    IEnumerator ReloadCoroutine()
+    {
+        IsReload = true;
+        yield return new WaitForSeconds(2);
+        if (ReloadingUI.interruptus) yield break;
+        if (ReloadingUI.Instance.img.fillAmount > 0.9f)
+        {
+            CurrentBullets = gunData.MaxBullets;
+            AmmunitionUI.ChangeAmmoCount(CurrentBullets, gunData.MaxBullets);
+            IsReload = false;
+        }
+    }
     public void Reload()
     {
-        CurrentBullets = gunData.MaxBullets;
-        Reloading = false;
+        ReloadingUI.StartReload(2);
+        StartCoroutine(ReloadCoroutine());
     }
 }
-public interface IReload
-{
-    void Reload();
-}
+
