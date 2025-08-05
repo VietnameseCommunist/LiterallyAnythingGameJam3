@@ -1,10 +1,12 @@
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Gun : MonoBehaviour
+public class Gun : MonoBehaviour, IReload
 {
     public GunData gunData;
     private PlayerDamage playerDamage;
+
+    [SerializeField] private int CurrentBullets;
 
     public bool IsOnGround;
 
@@ -12,6 +14,7 @@ public class Gun : MonoBehaviour
     void Start()
     {
         playerDamage = PlayerScript.instance.playerDamage.GetComponent<PlayerDamage>();
+        CurrentBullets = gunData.MaxBullets;
     }
 
     // Update is called once per frame
@@ -21,9 +24,21 @@ public class Gun : MonoBehaviour
     }
     public void Heal()
     {
+        if (CurrentBullets <= 0)
+        {
+            Reload();
+            TestCanvas.BulletsString = CurrentBullets.ToString() + " / " + gunData.MaxBullets;
+            return;
+        }
+        else
+        {
+            CurrentBullets--;
+            TestCanvas.BulletsString = CurrentBullets.ToString() + " / " + gunData.MaxBullets;
+        }
+
         if (Physics.Raycast(playerDamage.ray, out playerDamage.hit, gunData.Distance, 1 << 3))
         {
-            playerDamage.hit.collider.GetComponent<Enemy>().GetDamage(-gunData.Damage);
+            playerDamage.hit.collider.GetComponentInParent<Enemy>().GetDamage(-gunData.Damage);
             Debug.Log(playerDamage.hit.collider.name);
         }
     }
@@ -58,4 +73,12 @@ public class Gun : MonoBehaviour
             enemy.GetDamage(-gunData.ThrowDamage);
         }
     }
+    public void Reload()
+    {
+        CurrentBullets = gunData.MaxBullets;
+    }
+}
+public interface IReload
+{
+    void Reload();
 }

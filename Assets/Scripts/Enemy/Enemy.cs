@@ -7,7 +7,7 @@ public class Enemy : MonoBehaviour
     public EnemyData enemyData;
     [SerializeField] private int Health;
 
-    private float AttackRateFill;
+    [SerializeField] private float AttackRateFill;
     [SerializeField] private float DistanceFromPlayer;
 
     Ray ray;
@@ -42,9 +42,9 @@ public class Enemy : MonoBehaviour
         Debug.DrawRay(agent.gameObject.transform.position, agent.gameObject.transform.forward);
         Ray ray = new Ray(agent.gameObject.transform.position, agent.gameObject.transform.forward);
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, 5))
-        { 
-            if (hit.collider.tag == "Player")
+        if (Physics.Raycast(ray, out hit, 2f, 1<<6))
+        {
+            if (hit.collider != null)
             {
                 if (AttackRateFill >= enemyData.AttackRate)
                 {

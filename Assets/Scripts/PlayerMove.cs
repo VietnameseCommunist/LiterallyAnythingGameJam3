@@ -15,9 +15,9 @@ public class PlayerMove : MonoBehaviour
 
     bool Grounded;
 
-    public float JumpForce;
-    public float DownForce;
-    public float JumpDelay;
+    public float JumpForce = 10;
+    public float DownForce = -10;
+    public float JumpDelay = 0.01f;
 
 
     Vector3 MoveDirection;

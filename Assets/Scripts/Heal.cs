@@ -21,7 +21,7 @@ public class Heal : MonoBehaviour
     {
         if (Physics.Raycast(playerDamage.ray, out playerDamage.hit, 2, 1 << 3))
         {
-            playerDamage.hit.collider.GetComponent<Enemy>().GetDamage(healData.HealAmount);
+            playerDamage.hit.collider.GetComponentInParent<Enemy>().GetDamage(healData.HealAmount);
             Debug.Log(playerDamage.hit.collider.name);
         }
     }
