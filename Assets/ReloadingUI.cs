@@ -12,6 +12,7 @@ public class ReloadingUI : MonoBehaviour
     void Start()
     {
          if (!Instance) Instance = this;
+         gameObject.SetActive(false);
     }
 
     public static void StartReload(float time)
