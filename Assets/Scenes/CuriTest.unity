@@ -1789,6 +1789,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gunData: {fileID: 11400000, guid: c42162d79c5e2d74fa9be85237a01bfd, type: 2}
+  IsReload: 0
   CurrentBullets: 0
   IsOnGround: 0
 --- !u!54 &2106029707

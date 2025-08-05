@@ -1,3 +1,4 @@
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -5,6 +6,7 @@ public class Gun : MonoBehaviour
 {
     public GunData gunData;
     private PlayerDamage playerDamage;
+    public bool IsReload = false;
 
     public int CurrentBullets;
 
@@ -16,7 +18,6 @@ public class Gun : MonoBehaviour
         playerDamage = PlayerScript.instance.playerDamage.GetComponent<PlayerDamage>();
         CurrentBullets = gunData.MaxBullets;
     }
-
     // Update is called once per frame
     void Update()
     {
@@ -26,16 +27,16 @@ public class Gun : MonoBehaviour
     {
         if (CurrentBullets <= 0)
         {
-            ReloadingUI.StartReload(2);
-            CurrentBullets = gunData.MaxBullets;
-            AmmunitionUI.ChangeAmmoCount(CurrentBullets, gunData.MaxBullets);
+            Reload();
             return;
         }
-        else
+        else if (!IsReload)
         {
             CurrentBullets--;
             AmmunitionUI.ChangeAmmoCount(CurrentBullets, gunData.MaxBullets);
         }
+
+        if (IsReload) return;
 
         if (Physics.Raycast(playerDamage.ray, out playerDamage.hit, gunData.Distance, 1 << 3))
         {
@@ -70,5 +71,22 @@ public class Gun : MonoBehaviour
             Enemy enemy = collision.collider.gameObject.GetComponentInParent<Enemy>();
             enemy.GetDamage(-gunData.ThrowDamage);
         }
+    }
+    IEnumerator ReloadCoroutine()
+    {
+        IsReload = true;
+        yield return new WaitForSeconds(2);
+        if (ReloadingUI.interruptus) yield break;
+        if (ReloadingUI.Instance.img.fillAmount > 0.9f)
+        {
+            CurrentBullets = gunData.MaxBullets;
+            AmmunitionUI.ChangeAmmoCount(CurrentBullets, gunData.MaxBullets);
+            IsReload = false;
+        }
+    }
+    public void Reload()
+    {
+        ReloadingUI.StartReload(2);
+        StartCoroutine(ReloadCoroutine());
     }
 }

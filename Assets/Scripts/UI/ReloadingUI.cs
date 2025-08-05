@@ -51,22 +51,22 @@ public class ReloadingUI : MonoBehaviour
          float animation = 1f;
          while (animation < 1.4f)
          {
-              transform.localScale = Vector3.one * animation;
+              transform.localScale = (Vector3.one * 0.5f) * animation;
               animation += Time.deltaTime * transform.localScale.magnitude;
               if (interruptus)
               {
-                   transform.localScale = Vector3.one;
+                   transform.localScale = (Vector3.one * 0.8f);
                    yield break;
               }
               yield return null;
          }
          while (animation > 0)
          {
-              transform.localScale = Vector3.one * animation;
+              transform.localScale = (Vector3.one * 0.5f) * animation;
               animation -= Time.deltaTime / (transform.localScale.magnitude / 2);
               if (interruptus)
               {
-                   transform.localScale = Vector3.one;
+                   transform.localScale = (Vector3.one * 0.5f);
                    yield break;
               }
               yield return null;
@@ -76,7 +76,7 @@ public class ReloadingUI : MonoBehaviour
 
     void DisableThis()
     {
-         transform.localScale = Vector3.one;
+         transform.localScale = (Vector3.one * 0.5f);
          gameObject.SetActive(false);
     }
 }
