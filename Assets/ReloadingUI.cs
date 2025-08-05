@@ -10,7 +10,6 @@ public class ReloadingUI : MonoBehaviour
     void Start()
     {
          if (!Instance) Instance = this;
-         ReloadingUI.StartReload(2);
     }
 
 
