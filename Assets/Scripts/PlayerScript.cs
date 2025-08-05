@@ -16,7 +16,6 @@ public class PlayerScript : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
-         GradientOverlay.MakeGradient(0, Color.black);
         if (instance == null) { instance = this; }
         else
         {
@@ -30,6 +29,11 @@ public class PlayerScript : MonoBehaviour
         Health = 100;
         playerDamage = GetComponent<PlayerDamage>();
         playerCam = GetComponentInChildren<PlayerCam>();
+    }
+
+    void Start()
+    {
+         GradientOverlay.MakeGradient(0, Color.black);
     }
     // Update is called once per frame
     void Update()

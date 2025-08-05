@@ -815,6 +815,17 @@ Transform:
   - {fileID: 596344842}
   m_Father: {fileID: 989389954}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &864898006 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5376869349623639070, guid: a6bf0fcc009d881489ae3b70feddad81, type: 3}
+  m_PrefabInstance: {fileID: 1284648109}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &975500269
 GameObject:
   m_ObjectHideFlags: 0
@@ -1064,7 +1075,6 @@ GameObject:
   - component: {fileID: 1201772120}
   - component: {fileID: 1201772119}
   - component: {fileID: 1201772118}
-  - component: {fileID: 1201772122}
   m_Layer: 5
   m_Name: TestCanvas
   m_TagString: Untagged
@@ -1148,7 +1158,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1793549575}
-  - {fileID: 1307027905}
   - {fileID: 1853313629}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1252,8 +1261,29 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5736590858882921094, guid: a6bf0fcc009d881489ae3b70feddad81, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1465355084}
   m_SourcePrefab: {fileID: 100100000, guid: a6bf0fcc009d881489ae3b70feddad81, type: 3}
+--- !u!1 &1465355082 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5736590858882921094, guid: a6bf0fcc009d881489ae3b70feddad81, type: 3}
+  m_PrefabInstance: {fileID: 1284648109}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1465355084
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1465355082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bc17031777874f4abb5e28c982352a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  img: {fileID: 864898006}
 --- !u!1 &1548139471
 GameObject:
   m_ObjectHideFlags: 0
