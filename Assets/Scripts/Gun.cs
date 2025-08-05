@@ -6,7 +6,7 @@ public class Gun : MonoBehaviour, IReload
     public GunData gunData;
     private PlayerDamage playerDamage;
 
-    [SerializeField] private int CurrentBullets;
+    public int CurrentBullets;
 
     public bool IsOnGround;
 
@@ -27,13 +27,13 @@ public class Gun : MonoBehaviour, IReload
         if (CurrentBullets <= 0)
         {
             Reload();
-            TestCanvas.BulletsString = CurrentBullets.ToString() + " / " + gunData.MaxBullets;
+            AmmunitionUI.ChangeAmmoCount(CurrentBullets, gunData.MaxBullets);
             return;
         }
         else
         {
             CurrentBullets--;
-            TestCanvas.BulletsString = CurrentBullets.ToString() + " / " + gunData.MaxBullets;
+            AmmunitionUI.ChangeAmmoCount(CurrentBullets, gunData.MaxBullets);
         }
 
         if (Physics.Raycast(playerDamage.ray, out playerDamage.hit, gunData.Distance, 1 << 3))
@@ -50,12 +50,9 @@ public class Gun : MonoBehaviour, IReload
             return;
         }
 
-        Rigidbody rb = PlayerScript.instance.HoldingObject.GetComponent<Rigidbody>();
-        rb.useGravity = true;
-        rb.isKinematic = false;
-        PlayerScript.instance.HoldState = PlayerScript.HoldingState.NotHolding;
+        playerDamage.DropObject();
         Vector3 seeyuh = Quaternion.AngleAxis(-25, playerDamage.Camera.right) * playerDamage.Camera.forward;
-        rb.AddForce(seeyuh * (500f * ChargeRateRatio));
+        PlayerScript.instance.HoldingObject.GetComponent<Rigidbody>().AddForce(seeyuh * (500f * ChargeRateRatio));
         PlayerScript.instance.HoldingObject = null;
     }
     private void OnCollisionEnter(Collision collision)

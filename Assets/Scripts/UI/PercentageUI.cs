@@ -1,3 +1,4 @@
+using UnityEditor.Rendering;
 using UnityEngine;
 
 public class Percentage : MonoBehaviour
@@ -20,7 +21,14 @@ public class Percentage : MonoBehaviour
 
     void FixedUpdate()
     {
-         if (DebugValue == 0 && DebugMax == 0) return;
+        if (PlayerDamage.ChargeRate > 0)
+        {
+            if (PlayerDamage.ChargeRate < 3) gameObject.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -100);
+            else ShakeShakeShake();
+        }
+        else gameObject.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 120);
+
+        if (DebugValue == 0 && DebugMax == 0) return;
          value = DebugValue;
          max = DebugMax;
     }
@@ -29,9 +37,10 @@ public class Percentage : MonoBehaviour
     void LateUpdate()
     {
          if (!NeedleGameObject)
-         {
-              return;
-         }
+        {
+            return;
+        }
+
          //To avoid useless division
          if (value == 0)
          {
@@ -46,5 +55,12 @@ public class Percentage : MonoBehaviour
          }
          if (!instant) NeedleGameObject.transform.localRotation = Quaternion.Lerp(NeedleGameObject.transform.localRotation, Quaternion.Euler(-Mathf.Clamp(value / max * 180, 0, 180), 0, 0), 3f * Time.deltaTime);
          else NeedleGameObject.transform.localRotation = Quaternion.Euler(-Mathf.Clamp(value / max * 180, 0, 180),0,0);
+    }
+    void ShakeShakeShake()
+    {
+        float Xpos = Random.Range(-1,1) * 1.5f;
+        float Ypos = Random.Range(-1,1) * 1.5f;
+
+        gameObject.GetComponent<RectTransform>().anchoredPosition = new Vector2(Xpos, -100 + Ypos);
     }
 }

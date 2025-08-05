@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerDamage : MonoBehaviour
 {
-    [SerializeField] private float ChargeRate; //for throwing
+    public static float ChargeRate; //for throwing
     [SerializeField] private float MaxRate = 3;
 
     public Transform Camera;
@@ -87,6 +87,17 @@ public class PlayerDamage : MonoBehaviour
         if (PlayerScript.instance.HoldingObject.GetComponent<Gun>() != null)
         {
             PlayerScript.instance.IsGun = true;
+            Gun hehe = PlayerScript.instance.HoldingObject.GetComponent<Gun>();
+            AmmunitionUI.ChangeAmmoCount(hehe.CurrentBullets, hehe.gunData.MaxBullets);
+
+            switch (hehe.gunData.GunType)
+            {
+                case GunTypes.AssaultRifle: AmmunitionUI.ChangeAmmoDisplay(0); break;
+                case GunTypes.ShotGun: AmmunitionUI.ChangeAmmoDisplay(1); break;
+                case GunTypes.LightGun: AmmunitionUI.ChangeAmmoDisplay(2); break;
+                case GunTypes.Sniper: AmmunitionUI.ChangeAmmoDisplay(3); break;
+                    default: AmmunitionUI.Instance.img.sprite = AmmunitionUI.Instance.defaulter; break;
+            }
         }
         else PlayerScript.instance.IsGun = false;
     }
@@ -98,12 +109,19 @@ public class PlayerDamage : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.F))
         {
-            PlayerScript.instance.HoldingObject.GetComponent<Collider>().enabled = true;
-            PlayerScript.instance.IsGun = false;
-            PlayerScript.instance.HoldState = PlayerScript.HoldingState.NotHolding;
-            PlayerScript.instance.HoldingObject.GetComponent<Rigidbody>().useGravity = true;
-            PlayerScript.instance.HoldingObject.GetComponent <Rigidbody>().isKinematic = false;
+            DropObject();
             PlayerScript.instance.HoldingObject = null;
         }
+    }
+    public void DropObject()
+    {
+        PlayerScript.instance.HoldingObject.GetComponent<Collider>().enabled = true;
+        PlayerScript.instance.IsGun = false;
+        PlayerScript.instance.HoldState = PlayerScript.HoldingState.NotHolding;
+        PlayerScript.instance.HoldingObject.GetComponent<Rigidbody>().useGravity = true;
+        PlayerScript.instance.HoldingObject.GetComponent<Rigidbody>().isKinematic = false;
+
+        AmmunitionUI.Instance.AmmoCount.text = "None";
+        AmmunitionUI.Instance.img.sprite = AmmunitionUI.Instance.defaulter;
     }
 }
