@@ -16,6 +16,7 @@ public class PlayerScript : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
+         GradientOverlay.MakeGradient(0, Color.black);
         if (instance == null) { instance = this; }
         else
         {
@@ -38,6 +39,7 @@ public class PlayerScript : MonoBehaviour
     public void GetDamage(int damage)
     {
         Health -= damage;
+        HealthUI.SetTo(Health);
     }
     void Die()
     {
