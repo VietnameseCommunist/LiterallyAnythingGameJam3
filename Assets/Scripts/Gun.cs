@@ -1,14 +1,23 @@
 using Unity.VisualScripting;
 using UnityEngine;
 
+<<<<<<< HEAD
 public class Gun : MonoBehaviour
+=======
+[System.Serializable]
+public class Gun : MonoBehaviour, IReload
+>>>>>>> e8b9d41bd1eb2c38374334652c8335703209056d
 {
+
     public GunData gunData;
     private PlayerDamage playerDamage;
+    public PlayerScript playerScript;
 
     public int CurrentBullets;
 
     public bool IsOnGround;
+    bool Reloading;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -20,18 +29,29 @@ public class Gun : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+<<<<<<< HEAD
 
+=======
+        Heal();
+>>>>>>> e8b9d41bd1eb2c38374334652c8335703209056d
     }
     public void Heal()
     {
-        if (CurrentBullets <= 0)
+        if (CurrentBullets <= 10 && Input.GetKeyDown(KeyCode.R) && playerScript.IsGun == true && Reloading != true)
         {
+<<<<<<< HEAD
             ReloadingUI.StartReload(2);
             CurrentBullets = gunData.MaxBullets;
+=======
+
+             Debug.Log("Reload Detected");
+            Reloading = true;
+            Invoke("Reload", 2f);
+>>>>>>> e8b9d41bd1eb2c38374334652c8335703209056d
             AmmunitionUI.ChangeAmmoCount(CurrentBullets, gunData.MaxBullets);
             return;
         }
-        else
+        if (Input.GetKeyDown(KeyCode.Mouse0) && CurrentBullets >= 0 && playerScript.IsGun == true && Reloading != true)
         {
             CurrentBullets--;
             AmmunitionUI.ChangeAmmoCount(CurrentBullets, gunData.MaxBullets);
@@ -71,4 +91,17 @@ public class Gun : MonoBehaviour
             enemy.GetDamage(-gunData.ThrowDamage);
         }
     }
+<<<<<<< HEAD
 }
+=======
+    public void Reload()
+    {
+        CurrentBullets = gunData.MaxBullets;
+        Reloading = false;
+    }
+}
+public interface IReload
+{
+    void Reload();
+}
+>>>>>>> e8b9d41bd1eb2c38374334652c8335703209056d
