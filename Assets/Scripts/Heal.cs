@@ -33,12 +33,9 @@ public class Heal : MonoBehaviour
             return;
         }
 
-        Rigidbody rb = PlayerScript.instance.HoldingObject.GetComponent<Rigidbody>();
-        rb.useGravity = true;
-        rb.isKinematic = false;
-        PlayerScript.instance.HoldState = PlayerScript.HoldingState.NotHolding;
+        playerDamage.DropObject();
         Vector3 seeyuh = Quaternion.AngleAxis(-25, playerDamage.Camera.right) * playerDamage.Camera.forward;
-        rb.AddForce(seeyuh * (500f * ChargeRateRatio));
+        PlayerScript.instance.HoldingObject.GetComponent<Rigidbody>().AddForce(seeyuh * (500f * ChargeRateRatio));
         PlayerScript.instance.HoldingObject = null;
     }
     private void OnCollisionEnter(Collision collision)
