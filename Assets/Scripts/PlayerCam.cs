@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class PlayerCam : MonoBehaviour
 {
+    public static PlayerCam Instance;
+
     //variables
     public float SensX;
     public float SensY;
@@ -14,6 +16,10 @@ public class PlayerCam : MonoBehaviour
     public static float DefaultPOV = 70;
     public Camera cam;
 
+    private void Awake()
+    {
+        if(Instance == null) Instance = this;
+    }
     public void Start()
     {
        // Locks Cursor

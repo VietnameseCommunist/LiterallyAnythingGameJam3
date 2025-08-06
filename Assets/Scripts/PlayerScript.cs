@@ -4,7 +4,6 @@ public class PlayerScript : MonoBehaviour
 {
     public static PlayerScript instance;
     public PlayerDamage playerDamage;
-    public PlayerCam playerCam;
 
     public GameObject HoldingObject;
     public bool IsGun;
@@ -28,7 +27,6 @@ public class PlayerScript : MonoBehaviour
 
         Health = 100;
         playerDamage = GetComponent<PlayerDamage>();
-        playerCam = GetComponentInChildren<PlayerCam>();
     }
 
     void Start()

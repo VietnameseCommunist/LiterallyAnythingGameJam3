@@ -14,7 +14,7 @@ public class EnemySpawn : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        MaximumEnemies = 20;
+        MaximumEnemies = 1;
         SpawnCoolDown = 2;
         SpawnTimer = 0;
     }
