@@ -11,7 +11,7 @@ public class Gun : MonoBehaviour
     private PlayerDamage playerDamage;
 
     public bool IsReload = false;
-
+    float AttackRateFill;
     public int CurrentBullets;
 
     public bool IsOnGround;
@@ -22,14 +22,20 @@ public class Gun : MonoBehaviour
     {
         playerDamage = PlayerScript.instance.playerDamage.GetComponent<PlayerDamage>();
         CurrentBullets = gunData.MaxBullets;
+        AttackRateFill = gunData.AttackRate;
     }
     // Update is called once per frame
     void Update()
     {
-
+        if(AttackRateFill < gunData.AttackRate)
+        {
+            AttackRateFill += Time.deltaTime;
+        }
     }
     public void Heal()
     {
+        if (AttackRateFill < gunData.AttackRate) return;
+
         if (CurrentBullets <= 0)
         {
             Reload();
@@ -42,6 +48,8 @@ public class Gun : MonoBehaviour
         }
 
         if (IsReload) return;
+
+        AttackRateFill = 0;
 
         if (Physics.Raycast(playerDamage.ray, out playerDamage.hit, gunData.Distance, 1 << 3))
         {

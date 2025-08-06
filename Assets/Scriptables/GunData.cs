@@ -6,6 +6,7 @@ public class GunData : ScriptableObject
     public int Damage;
     public int ThrowDamage;
     public int Distance;
+    public float AttackRate;
 
     public int MaxBullets;
     public GunTypes GunType;

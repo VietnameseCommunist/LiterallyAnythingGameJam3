@@ -37,6 +37,7 @@ public class PlayerDamage : MonoBehaviour
         if (PlayerScript.instance.IsGun && PlayerScript.instance.HoldState == PlayerScript.HoldingState.Holding)
         {
             Gun gun = PlayerScript.instance.HoldingObject.GetComponent<Gun>();
+            
             if (Input.GetMouseButtonDown(0))
             {
                 gun.Heal();
@@ -79,7 +80,7 @@ public class PlayerDamage : MonoBehaviour
     }
     void PickUpObject()
     {
-        if (Physics.Raycast(ray, out hit, 5, 1<<9))
+        if (Physics.Raycast(ray, out hit, 5, 1 << 9))
         {
             PlayerScript.instance.HoldingObject = hit.collider.gameObject;
             Rigidbody rb = hit.collider.GetComponent<Rigidbody>();
@@ -107,10 +108,14 @@ public class PlayerDamage : MonoBehaviour
                 case GunTypes.ShotGun: AmmunitionUI.ChangeAmmoDisplay(1); break;
                 case GunTypes.LightGun: AmmunitionUI.ChangeAmmoDisplay(2); break;
                 case GunTypes.Sniper: AmmunitionUI.ChangeAmmoDisplay(3); break;
-                    default: AmmunitionUI.Instance.img.sprite = AmmunitionUI.Instance.defaulter; break;
+                default: AmmunitionUI.Instance.img.sprite = AmmunitionUI.Instance.defaulter; break;
             }
         }
-        else PlayerScript.instance.IsGun = false;
+        else
+        {
+            PlayerScript.instance.IsGun = false;
+            AmmunitionUI.ChangeAmmoCount(0, 0);
+        }
     }
     public void DropObject()
     {

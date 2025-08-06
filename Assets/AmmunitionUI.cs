@@ -49,7 +49,12 @@ public class AmmunitionUI : MonoBehaviour
          {
               if (Instance.AmmoCount)
               {
-                  Instance.AmmoCount.text = number.ToString() + "/" + max.ToString();
+                  if(number == 0 && max == 0)
+                  { 
+                      Instance.AmmoCount.text = "\uA74E";
+                      
+                  }
+                else Instance.AmmoCount.text = number.ToString() + "/" + max.ToString();
               }
          }
          return number;
