@@ -40,12 +40,18 @@ public class PlayerScript : MonoBehaviour
     }
     public void GetDamage(int damage)
     {
+        if(Health <= 0)
+        {
+            Die();
+        }
         Health -= damage;
         HealthUI.SetTo(Health);
         Gradient.Instance.ColorToRedWhenDamage();
     }
     void Die()
     {
+        PlayerCam.Instance.cam.gameObject.transform.SetParent(null);
+        Destroy(PlayerScript.instance.gameObject);
     }
 
     public enum HoldingState { NotHolding,Holding}

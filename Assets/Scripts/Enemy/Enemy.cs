@@ -1,9 +1,12 @@
+using NUnit.Framework.Internal.Filters;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
     public NavMeshAgent agent;
+    [SerializeField] private Animator animator;
+
     public EnemyData enemyData;
     [SerializeField] private int Health;
 
@@ -23,10 +26,13 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        ray = new Ray(transform.position, transform.forward);
+        if(PlayerScript.instance != null)
+        {
+            ray = new Ray(transform.position, transform.forward);
 
-        Moving();
-        Fight();
+            Moving();
+            Fight();
+        }
     }
     public void GetDamage(int damage)
     {
@@ -49,6 +55,7 @@ public class Enemy : MonoBehaviour
                 if (AttackRateFill >= enemyData.AttackRate)
                 {
                     if (hit.collider == null) Debug.Log("There is no player");
+                    animator.SetTrigger("Attack");
                     PlayerScript.instance.GetDamage(enemyData.Damage);
                     Debug.Log("Got hit uwu");
                     AttackRateFill = 0;

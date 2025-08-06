@@ -85,6 +85,14 @@ public class Gun : MonoBehaviour
             enemy.GetDamage(-gunData.ThrowDamage);
         }
     }
+    private void OnCollisionStay(Collision collision)
+    {
+        if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        {
+            IsOnGround = true;
+            return;
+        }
+    }
     IEnumerator ReloadCoroutine()
     {
         IsReload = true;
