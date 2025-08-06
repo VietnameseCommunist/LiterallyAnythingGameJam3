@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
 {
+    [SerializeField] private Animator animator;
     public static PlayerScript instance;
     public PlayerDamage playerDamage;
 
@@ -36,7 +37,8 @@ public class PlayerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0) animator.SetBool("IsMoving", true);
+        else animator.SetBool("IsMoving", false);
     }
     public void GetDamage(int damage)
     {
