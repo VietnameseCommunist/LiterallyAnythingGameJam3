@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UIElements;
 
 public class EnemySpawn : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class EnemySpawn : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        MaximumEnemies = 2;
+        MaximumEnemies = 20;
         SpawnCoolDown = 2;
         SpawnTimer = 0;
     }
@@ -32,23 +33,45 @@ public class EnemySpawn : MonoBehaviour
     }
     void Spawn()
     {
+        Vector3 finalpos;
+        int CurrentAttempt = 0;
+        int MaxAttempt = 20;
+        float Xpos;
+        float Zpos;
         SpawnTimer = 0;
-        int value;
-
-        if (Random.value < 0.5f) // 50% chance
+        do
         {
-            value = Random.Range(-20, -10); // upper bound is exclusive for ints
+            if (Random.value < 0.5f) // 50% chance
+                Xpos = Random.Range(-20, -10); // upper bound is exclusive for ints
+            else
+                Xpos = Random.Range(10, 21); // 21 to include 20
+
+            if (Random.value < 0.5f)
+                Zpos = Random.Range(-20, -10);
+            else
+                Zpos = Random.Range(10, 21);
+
+            Xpos += PlayerScript.instance.gameObject.transform.position.x;
+            Zpos += PlayerScript.instance.gameObject.transform.position.z;
+
+            finalpos = new Vector3(Xpos, 0, Zpos);
+            CurrentAttempt++;
         }
-        else
+        while (!IsPositionOnNavMeshSurface(finalpos) && CurrentAttempt < MaxAttempt);
+
+        if(CurrentAttempt >= MaxAttempt)
         {
-            value = Random.Range(10, 21); // 21 to include 20
+            Debug.Log("Coudn't find a spawning position, after several tries.... Skipping to the next spawn");
+            return;
         }
-
-        float Xpos = value + PlayerScript.instance.gameObject.transform.position.x;
-        float Zpos = value + PlayerScript.instance.gameObject.transform.position.z;
-
-        GameObject enemy = Instantiate(EnemiesToSpawn[0]);
-
-        enemy.transform.position = new Vector3(Xpos,0,Zpos);
+        GameObject Enemy = Instantiate(EnemiesToSpawn[0]);
+        Enemy.transform.position = finalpos;
+    }
+    bool IsPositionOnNavMeshSurface(Vector3 position)
+    {
+        NavMeshHit hit;
+        bool isNavMeshSurface = NavMesh.SamplePosition(position, out hit, 1, NavMesh.AllAreas);
+        Debug.Log("Couldn't find a position to spawn, finding again...");
+        return isNavMeshSurface;
     }
 }
