@@ -36,8 +36,16 @@ public class Enemy : MonoBehaviour
     }
     public void GetDamage(int damage)
     {
-        if (Health > 0) Health += damage;
-        else Die();
+        if (Health > 0)
+        {
+            Health -= damage;
+            if(Health <= 0)
+            {
+                MarkerMaker.Marker(1).transform.localScale *= (PlayerScript.instance.HoldingObject.GetComponent<Gun>().gunData.ThrowDamage / 3);
+                Die();
+            }
+            else MarkerMaker.Marker(0).transform.localScale *= (PlayerScript.instance.HoldingObject.GetComponent<Gun>().gunData.Damage / 1.5f);
+        }
     }
     void Die()
     {

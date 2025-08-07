@@ -88,7 +88,7 @@ public class PlayerDamage : MonoBehaviour
             PlayerScript.instance.HoldState = PlayerScript.HoldingState.Holding;
             rb.isKinematic = true;
 
-            PlayerScript.instance.HoldingObject.transform.position = Camera.position + Camera.rotation * new Vector3(0.5f, -0.2f, 1);
+            PlayerScript.instance.HoldingObject.transform.position = Camera.position + Camera.rotation * new Vector3(0.5f, -0.3f, 0.5f);
             PlayerScript.instance.HoldingObject.transform.rotation = Camera.rotation;
             PlayerScript.instance.HoldingObject.GetComponent<Collider>().enabled = false;
 

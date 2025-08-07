@@ -6,7 +6,7 @@ using UnityEngine;
 [System.Serializable]
 public class Gun : MonoBehaviour
 {
-
+    [SerializeField] private AudioSource audiosource;
     public GunData gunData;
     private PlayerDamage playerDamage;
 
@@ -44,6 +44,8 @@ public class Gun : MonoBehaviour
         else if (!IsReload)
         {
             CurrentBullets--;
+            audiosource.time = 0.1f;
+            audiosource.Play();
             Recoil(gunData.Recoil);
             AmmunitionUI.ChangeAmmoCount(CurrentBullets, gunData.MaxBullets);
         }
@@ -55,7 +57,6 @@ public class Gun : MonoBehaviour
         if (Physics.Raycast(playerDamage.ray, out playerDamage.hit, gunData.Distance, 1 << 3))
         {
             playerDamage.hit.collider.GetComponentInParent<Enemy>().GetDamage(gunData.Damage);
-            MarkerMaker.Marker(0).transform.localScale *= (gunData.Damage / 1.5f);
             Debug.Log(playerDamage.hit.collider.name);
         }
     }
