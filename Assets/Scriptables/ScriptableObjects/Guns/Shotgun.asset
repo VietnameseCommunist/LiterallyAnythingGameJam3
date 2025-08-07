@@ -16,5 +16,6 @@ MonoBehaviour:
   ThrowDamage: 5
   Distance: 5
   AttackRate: 2
+  Recoil: 10
   MaxBullets: 10
   GunType: 1

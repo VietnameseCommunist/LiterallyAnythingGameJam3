@@ -44,6 +44,7 @@ public class Gun : MonoBehaviour
         else if (!IsReload)
         {
             CurrentBullets--;
+            Recoil(gunData.Recoil);
             AmmunitionUI.ChangeAmmoCount(CurrentBullets, gunData.MaxBullets);
         }
 
@@ -109,6 +110,10 @@ public class Gun : MonoBehaviour
     {
         ReloadingUI.StartReload(2);
         StartCoroutine(ReloadCoroutine());
+    }
+    void Recoil(int AmountOfRecoil)
+    {
+        PlayerCam.Instance.XrotationChange(AmountOfRecoil);
     }
 }
 

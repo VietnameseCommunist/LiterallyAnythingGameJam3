@@ -47,5 +47,9 @@ public class PlayerCam : MonoBehaviour
 
 
     }
+    public void XrotationChange(int changes)
+    {
+        XRotation += -changes;
+    }
 
 }
