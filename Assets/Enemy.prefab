@@ -48,7 +48,7 @@ MonoBehaviour:
   agent: {fileID: 4158459080521517810}
   animator: {fileID: 2708003949195886893}
   enemyData: {fileID: 11400000, guid: 1ab97aff8b376d74f933863f6b4a737b, type: 2}
-  Health: 100
+  Health: 20
   AttackRateFill: 0
   DistanceFromPlayer: 0
 --- !u!1001 &8580219067315540856
