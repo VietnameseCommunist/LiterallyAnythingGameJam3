@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
@@ -7,10 +8,23 @@ public class PlayerScript : MonoBehaviour
     public PlayerDamage playerDamage;
 
     public GameObject HoldingObject;
+    private float TimeSinceLastAttackedByEnemy;
+    private float TimeToHeal;
     public bool IsGun;
 
-    [SerializeField] private int Health;
-
+    public int _Health;
+    private int Health
+    {
+        get {  return _Health; }
+        set
+        {
+            if(_Health != value)
+            {
+                _Health = value;
+                OnHealthChanged();
+            }
+        }
+    }
     public HoldingState HoldState;
 
     [SerializeField] GameObject gameOverScreen;
@@ -29,8 +43,11 @@ public class PlayerScript : MonoBehaviour
         HoldState = HoldingState.NotHolding;
         IsGun = false;
 
-        Health = 100;
+        _Health = 100;
         playerDamage = GetComponent<PlayerDamage>();
+
+        TimeToHeal = 5;
+
     }
 
     void Start()
@@ -42,6 +59,11 @@ public class PlayerScript : MonoBehaviour
     {
         if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0) animator.SetBool("IsMoving", true);
         else animator.SetBool("IsMoving", false);
+
+        if (TimeSinceLastAttackedByEnemy < TimeToHeal)
+        {
+            TimeSinceLastAttackedByEnemy += Time.deltaTime;
+        }
     }
     public void GetDamage(int damage)
     {
@@ -51,7 +73,8 @@ public class PlayerScript : MonoBehaviour
             Die();
         }
         Health -= damage;
-        HealthUI.SetTo(Health);
+        TimeSinceLastAttackedByEnemy = 0;
+        StartCoroutine(NaturalHealing(5));
         Gradient.Instance.ColorToRedWhenDamage();
     }
     void Die()
@@ -59,6 +82,35 @@ public class PlayerScript : MonoBehaviour
         PlayerCam.Instance.cam.gameObject.transform.SetParent(null);
         Destroy(PlayerScript.instance.gameObject);
     }
-
+    bool OnHealthChanged()
+    {
+        HealthUI.SetTo(Health);
+        return true;
+    }
+    bool IsHealing()
+    {
+        if(TimeSinceLastAttackedByEnemy > 5)
+        {
+            return true;
+        }
+        return false;
+    }
+    IEnumerator NaturalHealing(int HealPerSecond)
+    {
+        yield return new WaitForSeconds(TimeToHeal);
+        do
+        {
+            if(!IsHealing()) yield break;
+            Health += HealPerSecond;
+            Debug.Log("seeyuh");
+            if (Health >= 100)
+            {
+                Health = 100;
+                yield break;
+            }
+            yield return new WaitForSeconds(1);
+        }
+        while (Health < 100 && IsHealing());
+    }
     public enum HoldingState { NotHolding,Holding}
 }
