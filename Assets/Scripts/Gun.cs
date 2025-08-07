@@ -54,7 +54,7 @@ public class Gun : MonoBehaviour
 
         if (Physics.Raycast(playerDamage.ray, out playerDamage.hit, gunData.Distance, 1 << 3))
         {
-            playerDamage.hit.collider.GetComponentInParent<Enemy>().GetDamage(-gunData.Damage);
+            playerDamage.hit.collider.GetComponentInParent<Enemy>().GetDamage(gunData.Damage);
             MarkerMaker.Marker(0).transform.localScale *= (gunData.Damage / 1.5f);
             Debug.Log(playerDamage.hit.collider.name);
         }
@@ -77,23 +77,18 @@ public class Gun : MonoBehaviour
         if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
             IsOnGround = true;
+            gameObject.GetComponent<Collider>().excludeLayers = LayerMask.GetMask("Player", "Enemy");
             return;
         }
-        else IsOnGround = false;
+        IsOnGround = false;
+
+        if (IsOnGround) return;
 
         if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Enemy") && !IsOnGround)
         {
             Enemy enemy = collision.collider.gameObject.GetComponentInParent<Enemy>();
             enemy.GetDamage(-gunData.ThrowDamage);
             MarkerMaker.Marker(3).transform.localScale *= (gunData.ThrowDamage / 3);
-        }
-    }
-    private void OnCollisionStay(Collision collision)
-    {
-        if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Ground"))
-        {
-            IsOnGround = true;
-            return;
         }
     }
     IEnumerator ReloadCoroutine()

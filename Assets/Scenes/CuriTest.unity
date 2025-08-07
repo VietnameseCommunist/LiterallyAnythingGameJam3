@@ -1817,6 +1817,7 @@ MonoBehaviour:
   IsGun: 0
   Health: 100
   HoldState: 0
+  gameOverScreen: {fileID: 0}
 --- !u!114 &989389951
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -92,7 +92,7 @@ public class PlayerDamage : MonoBehaviour
             PlayerScript.instance.HoldingObject.transform.rotation = Camera.rotation;
             PlayerScript.instance.HoldingObject.GetComponent<Collider>().enabled = false;
 
-            PlayerScript.instance.HoldingObject.gameObject.transform.SetParent(PlayerCam.Instance.cam.transform);
+            PlayerScript.instance.HoldingObject.gameObject.transform.parent.SetParent(PlayerCam.Instance.cam.transform);
         }
         else return;
 
@@ -119,8 +119,9 @@ public class PlayerDamage : MonoBehaviour
     }
     public void DropObject()
     {
-        PlayerScript.instance.HoldingObject.gameObject.transform.SetParent(null);
+        PlayerScript.instance.HoldingObject.gameObject.transform.parent.SetParent(null);
         PlayerScript.instance.HoldingObject.GetComponent<Collider>().enabled = true;
+        PlayerScript.instance.HoldingObject.GetComponent<Collider>().excludeLayers = LayerMask.GetMask();
         PlayerScript.instance.IsGun = false;
         PlayerScript.instance.HoldState = PlayerScript.HoldingState.NotHolding;
         PlayerScript.instance.HoldingObject.GetComponent<Rigidbody>().useGravity = true;
