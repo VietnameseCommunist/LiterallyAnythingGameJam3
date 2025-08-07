@@ -88,6 +88,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a502ab8661e856d4188cae45d0f3a072, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lerp: 0.13
+  lerp: 0.01
   img: {fileID: 3894322553190267084}
-  fadingMultiplier: 3.24
+  fadingMultiplier: 0.12

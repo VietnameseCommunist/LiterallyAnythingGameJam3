@@ -6,7 +6,7 @@ public class GradientOverlay : MonoBehaviour
      public static GradientOverlay Instance;
      public Gradient[] gradients;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void Awake()
     {
          if (Instance == null) Instance = this;
     }

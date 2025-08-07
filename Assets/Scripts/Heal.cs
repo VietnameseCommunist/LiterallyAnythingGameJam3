@@ -15,13 +15,14 @@ public class Heal : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
     public void Damage()
     {
         if (Physics.Raycast(playerDamage.ray, out playerDamage.hit, 2, 1 << 3))
         {
             playerDamage.hit.collider.GetComponentInParent<Enemy>().GetDamage(healData.HealAmount);
+            MarkerMaker.Marker(2).transform.localScale *= (healData.HealAmount / 1.5f);
             Debug.Log(playerDamage.hit.collider.name);
         }
     }
@@ -51,6 +52,7 @@ public class Heal : MonoBehaviour
         {
             Enemy enemy = collision.collider.gameObject.GetComponentInParent<Enemy>();
             enemy.GetDamage(healData.ThrowDamage);
+            MarkerMaker.Marker(3).transform.localScale *= (healData.ThrowDamage / 3);
         }
     }
 }

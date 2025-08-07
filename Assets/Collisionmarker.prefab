@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3894322553190267084}
   - component: {fileID: 7380816837451099342}
   m_Layer: 0
-  m_Name: Healmarker
+  m_Name: Collisionmarker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -66,7 +66,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 7e0ea2eced12b174889dd15b308a0243, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 72f62f19872777f40ac8aec0ed518ac3, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -88,7 +88,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a502ab8661e856d4188cae45d0f3a072, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lerp: 0.03
+  lerp: 0.005
   img: {fileID: 3894322553190267084}
-  fadingMultiplier: 0.07
-  tempNegative: -0.21
+  fadingMultiplier: 0.13
+  tempNegative: -0.1

@@ -6,7 +6,8 @@ public class MarkerActivity : MonoBehaviour
     [SerializeField] float lerp;
     [SerializeField] Image img;
     [SerializeField] float fadingMultiplier;
-
+    [SerializeField] float tempNegative;
+    bool isNegative;
     void Start()
     {
          StartCoroutine(Disappear());
@@ -14,7 +15,19 @@ public class MarkerActivity : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-         transform.localScale = Vector3.LerpUnclamped(transform.localScale, Vector3.zero, lerp * Time.timeScale);
+         transform.localScale = Vector3.LerpUnclamped(transform.localScale, Vector3.zero, tempNegative > 0 || isNegative && tempNegative == 0 ? lerp * -Time.timeScale : lerp * Time.timeScale);
+         if (tempNegative > 0)
+         {
+              isNegative = false;
+              if (tempNegative - Time.deltaTime > 0) tempNegative -= Time.deltaTime;
+              else tempNegative = 0;
+         }
+         if (tempNegative < 0)
+         {
+              isNegative = true;
+              if (tempNegative + Time.deltaTime < 0) tempNegative += Time.deltaTime;
+              else tempNegative = 0;
+         }
     }
 
     IEnumerator Disappear()

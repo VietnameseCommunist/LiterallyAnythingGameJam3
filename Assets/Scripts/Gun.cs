@@ -55,6 +55,7 @@ public class Gun : MonoBehaviour
         if (Physics.Raycast(playerDamage.ray, out playerDamage.hit, gunData.Distance, 1 << 3))
         {
             playerDamage.hit.collider.GetComponentInParent<Enemy>().GetDamage(-gunData.Damage);
+            MarkerMaker.Marker(0).transform.localScale *= (gunData.Damage / 1.5f);
             Debug.Log(playerDamage.hit.collider.name);
         }
     }
@@ -84,6 +85,7 @@ public class Gun : MonoBehaviour
         {
             Enemy enemy = collision.collider.gameObject.GetComponentInParent<Enemy>();
             enemy.GetDamage(-gunData.ThrowDamage);
+            MarkerMaker.Marker(3).transform.localScale *= (gunData.ThrowDamage / 3);
         }
     }
     private void OnCollisionStay(Collision collision)
@@ -116,4 +118,3 @@ public class Gun : MonoBehaviour
         PlayerCam.Instance.XrotationChange(AmountOfRecoil);
     }
 }
-

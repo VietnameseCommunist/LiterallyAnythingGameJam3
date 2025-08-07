@@ -13,9 +13,12 @@ public class PlayerScript : MonoBehaviour
 
     public HoldingState HoldState;
 
+    [SerializeField] GameObject gameOverScreen;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
+         Time.timeScale = 1;
         if (instance == null) { instance = this; }
         else
         {
@@ -44,6 +47,7 @@ public class PlayerScript : MonoBehaviour
     {
         if(Health <= 0)
         {
+             if (gameOverScreen) Instantiate(gameOverScreen);
             Die();
         }
         Health -= damage;

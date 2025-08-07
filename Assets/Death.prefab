@@ -272,6 +272,7 @@ GameObject:
   - component: {fileID: 3313851797594562160}
   - component: {fileID: 4736388831067355901}
   - component: {fileID: 7280355169594526971}
+  - component: {fileID: 1473739498435189411}
   m_Layer: 0
   m_Name: Death
   m_TagString: Untagged
@@ -365,6 +366,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &1473739498435189411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7159956155135021361}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79272120c7bbd1e4488ab87f23fca4da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7359664980942059096
 GameObject:
   m_ObjectHideFlags: 0
